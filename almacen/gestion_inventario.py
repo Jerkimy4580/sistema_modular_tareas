@@ -5,6 +5,7 @@ def registrar_entrada(inventario, producto_id, cantidad):
     """
     Registra la entrada de nuevos productos al inventario sumando la cantidad al stock actual.
     """
+    # Suma unidades al producto existente o crea un producto nuevo.
     if producto_id in inventario:
         inventario[producto_id]["stock"] += cantidad
     else:
@@ -15,6 +16,7 @@ def registrar_salida(inventario, producto_id, cantidad):
     """
     Registra la salida de productos restando del stock disponible, validando que exista suficiente.
     """
+    # Verifica que el producto exista y tenga stock suficiente.
     if producto_id in inventario and inventario[producto_id]["stock"] >= cantidad:
         inventario[producto_id]["stock"] -= cantidad
         return True
@@ -24,7 +26,9 @@ def calcular_nivel_optimo(demanda_promedio, tiempo_entrega_dias):
     """
     Calcula el stock de seguridad y nivel óptimo de inventario basado en la demanda y tiempos logísticos.
     """
+    # Reserva unidades adicionales para cubrir imprevistos.
     stock_seguridad = demanda_promedio * 2
+    # Calcula el nivel necesario durante el tiempo de entrega.
     nivel_optimo = (demanda_promedio * tiempo_entrega_dias) + stock_seguridad
     return nivel_optimo
 
@@ -32,13 +36,16 @@ def generar_alertas_reabastecimiento(inventario):
     """
     Verifica el inventario general y genera una lista de productos que requieren reabastecimiento urgente.
     """
+    # Guarda los productos que llegaron al minimo permitido.
     alertas = []
+    # Revisa el stock de cada producto del inventario.
     for producto_id, datos in inventario.items():
         if datos["stock"] <= datos.get("minimo", 10):
             alertas.append(f"Alerta: Producto '{producto_id}' bajo en stock ({datos['stock']} unidades).")
     return alertas
 
 # --- Ejecución Directa del Problema 2 ---
+# Ejecuta las operaciones principales de control de inventario.
 print("=== EJECUCIÓN PROBLEMA 2: Gestión de Inventario ===")
 inventario_actual = {"Laptop": {"stock": 5, "minimo": 8}, "Mouse": {"stock": 25, "minimo": 10}}
 print(f"Inventario Inicial: {inventario_actual}")

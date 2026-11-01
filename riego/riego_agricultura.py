@@ -5,6 +5,7 @@ def leer_datos_sensores_humedad(seccion_id):
     """
     Lee el porcentaje actual de humedad en el suelo mediante sensores instalados en campo.
     """
+    # Simula la lectura de humedad de una seccion del terreno.
     lectura_suelo = {
         "seccion": seccion_id,
         "humedad_porcentaje": 22.0
@@ -15,6 +16,7 @@ def consultar_prevision_meteorologica(ubicacion):
     """
     Consulta la previsión meteorológica externa para evaluar la probabilidad de lluvia.
     """
+    # Simula los datos recibidos del servicio meteorologico.
     prevision = {
         "ubicacion": ubicacion,
         "probabilidad_lluvia": 10,
@@ -26,10 +28,13 @@ def calcular_cantidad_riego(humedad_actual, probabilidad_lluvia):
     """
     Calcula los litros exactos de agua necesarios por metro cuadrado según la sequedad del suelo y clima.
     """
+    # Evita regar cuando existe una alta probabilidad de lluvia.
     if probabilidad_lluvia > 60:
         return 0.0
     
+    # Calcula cuanta humedad falta para alcanzar el nivel deseado.
     deficit = max(0.0, 60.0 - humedad_actual)
+    # Convierte el deficit de humedad en litros por metro cuadrado.
     litros_por_m2 = deficit * 0.4
     return round(litros_por_m2, 2)
 
@@ -37,12 +42,14 @@ def controlar_valvulas_riego(seccion_id, volumen_agua_litros):
     """
     Procedimiento que abre o cierra las electroválvulas de riego automatizado en secciones específicas.
     """
+    # Abre las valvulas solo si se necesita suministrar agua.
     if volumen_agua_litros > 0:
         print(f"Abriendo válvulas de la sección {seccion_id}. Suministrando {volumen_agua_litros} L/m².")
     else:
         print(f"Cerrando válvulas de la sección {seccion_id}: Riego suspendido.")
 
 # --- Ejecución Directa del Problema 5 ---
+# Ejecuta la lectura, el calculo y el control del sistema de riego.
 print("=== EJECUCIÓN PROBLEMA 5: Sistema de Riego ===")
 seccion = "Sector Norte"
 suelo = leer_datos_sensores_humedad(seccion)
